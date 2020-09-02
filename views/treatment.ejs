@@ -1,0 +1,10 @@
+<% include ../views/partials/header %>
+
+<h3> A Treatment Of:</h3>
+<ul>
+    <% tl.forEach(function(treatment){ %>
+        <li><%= treatment.name %></li>
+    <% }) %>
+</ul>
+
+<% include ../views/partials/footer %>

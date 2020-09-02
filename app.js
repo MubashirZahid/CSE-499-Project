@@ -77,6 +77,7 @@ app.get('/', function(req, res){
 
 });
 
+
 // Disease Details
 app.get('/dis/:id', function(req, res){
     var id = req.params.id;
@@ -84,7 +85,7 @@ app.get('/dis/:id', function(req, res){
 });
 
 
-// Treatment Details
+// Disease Details
 app.get('/disease/:id', function(req, res){
     var id = req.params.id;
     
@@ -111,7 +112,83 @@ app.get('/disease/:id', function(req, res){
         .catch(function(error){
             console.log(error)
         });
+
 });
+
+
+// Treatment Details
+app.get('/tre/:id', function(req, res){
+    var id = req.params.id;
+    res.send(id);
+});
+
+
+// Treatment Details
+app.get('/treatment/:id', function(req, res){
+    var id = req.params.id;
+    
+    session
+    .run("OPTIONAL MATCH (a:Disease)-[r:Treated_By]-(b:Treatment) WHERE id(b)=toInteger($idParam) RETURN a", {idParam:id})
+        .then(function(result){
+            var tlArray = [];
+
+
+            result.records.forEach(function(record){
+                if(record._fields[0] != null){
+                    tlArray.push({
+                        id: record._fields[0].identity.low,
+                        name: record._fields[0].properties.name
+                    });
+                }
+            });
+
+            res.render('treatment', {
+                id: id,
+                tl: tlArray
+            })
+        })
+        .catch(function(error){
+            console.log(error)
+        });
+});
+
+
+// Symtom Details
+app.get('/sym/:id', function(req, res){
+    var id = req.params.id;
+    res.send(id);
+});
+
+
+// Symtom Details
+app.get('/symtom/:id', function(req, res){
+    var id = req.params.id;
+    
+    session
+    .run("OPTIONAL MATCH (a:Disease)-[r: Symtom]-(b:Symtom) WHERE id(b)=toInteger($idParam) RETURN a", {idParam:id})
+        .then(function(result){
+            var tlArray = [];
+
+
+            result.records.forEach(function(record){
+                if(record._fields[0] != null){
+                    tlArray.push({
+                        id: record._fields[0].identity.low,
+                        name: record._fields[0].properties.name
+                    });
+                }
+            });
+
+            res.render('symtom', {
+                id: id,
+                tl: tlArray
+            })
+        })
+        .catch(function(error){
+            console.log(error)
+        });
+});
+
 
 // New Add Disease
 app.get('/add', function(req, res){

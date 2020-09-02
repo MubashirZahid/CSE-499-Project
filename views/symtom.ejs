@@ -1,13 +1,10 @@
 <% include ../views/partials/header %>
 
-
-<h3> Treated By:</h3>
+<h3> A Symtom Of:</h3>
 <ul>
-    <% tl.forEach(function(disease){ %>
-        <li><%= disease.name %></li>
+    <% tl.forEach(function(symtom){ %>
+        <li><%= symtom.name %></li>
     <% }) %>
 </ul>
-
-
 
 <% include ../views/partials/footer %>
